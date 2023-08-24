@@ -88,3 +88,35 @@ INSERT IGNORE INTO reservations (id, house_id, user_id, checkin_date, checkout_d
 INSERT IGNORE INTO reservations (id, house_id, user_id, checkin_date, checkout_date, number_of_people, amount) VALUES (9, 9, 1, '2023-04-01', '2023-04-02', 5, 9000);
 INSERT IGNORE INTO reservations (id, house_id, user_id, checkin_date, checkout_date, number_of_people, amount) VALUES (10, 10, 1, '2023-04-01', '2023-04-02', 6, 10000);
 INSERT IGNORE INTO reservations (id, house_id, user_id, checkin_date, checkout_date, number_of_people, amount) VALUES (11, 11, 1, '2023-04-01', '2023-04-02', 2, 6000);
+
+-- reviewsテーブル
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (1, 60, 3, '侍 義勝', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (2, 60, 4, '侍 幸美', 4, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (3, 60, 5, '侍 雅', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (4, 60, 6, '侍 正保', 3, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (5, 60, 7, '侍 真由美', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (6, 60, 8, '侍 安民', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (7, 60, 9, '侍 章緒', 4, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (8, 60, 10, '侍 祐子', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (9, 60, 11, '侍 秋美', 3, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (10, 60, 12, '侍 信平', 4, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (11, 6, 3, '侍 義勝', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (12, 6, 4, '侍 幸美', 4, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (13, 6, 5, '侍 雅', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (14, 6, 6, '侍 正保', 3, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (15, 6, 7, '侍 真由美', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (16, 6, 8, '侍 安民', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (17, 6, 9, '侍 章緒', 4, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (18, 6, 10, '侍 祐子', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (19, 6, 11, '侍 秋美', 3, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (20, 6, 12, '侍 信平', 4, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (21, 6, 3, '侍 義勝', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (22, 6, 4, '侍 幸美', 4, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (23, 6, 5, '侍 雅', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (24, 6, 6, '侍 正保', 3, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (25, 6, 7, '侍 真由美', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (26, 6, 8, '侍 安民', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (27, 6, 9, '侍 章緒', 4, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (28, 6, 10, '侍 祐子', 5, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (29, 6, 11, '侍 秋美', 3, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');
+INSERT IGNORE INTO reviews (id, house_id, user_id, name, score, comment) VALUES (30, 6, 12, '侍 信平', 4, '（テスト）ホテルの雰囲気がとても良く、部屋も静かでとても過ごしやすかったです。');

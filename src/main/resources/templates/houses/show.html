@@ -31,6 +31,9 @@
                             
                             <div th:if="${errorMessage}" class="alert alert-danger">
                                 <span th:text="${errorMessage}"></span>
+                            </div>
+                            <div th:if="${successMessage}" class="alert alert-info">
+                                <span th:text="${successMessage}"></span>
                             </div>                                                                         
                             
                             <div class="mb-4">
@@ -39,7 +42,7 @@
                             </div> 
                             
                             <div class="container">  
-                                <div class="row">
+                                <div class="row mb-3">
                                     <div class="col-lg-8 container mb-4">            
                                         <div class="row pb-2 mb-2 border-bottom">
                                             <div class="col-4">
@@ -112,6 +115,7 @@
                                         </div>                                
                                     </div>
                                     
+                                    <!-- 予約フォーム -->
                                     <div sec:authorize="isAnonymous()" class="col-lg-4 px-0 ps-lg-4 mb-4">                  
                                         <div class="card">
                                             <div class="card-body">                                                                                                                                                                                                                     
@@ -147,7 +151,46 @@
                                         </div>
                                     </div>
 
-                                </div>                                                                                             
+                                </div> 
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row mb-4">
+                                            <div class="col-lg-4 mx-auto">
+                                                <h1 class="text-center">レビュー</h1>
+                                                <p class="text-center text-secondary" th:text="${totalReviews + '件'}"></p>
+                                                <div sec:authorize="isAuthenticated()" class="text-center">
+                                                    <a th:href="@{/houses/__${house.getId()}__/reviews/register}" class="btn text-white shadow-sm samuraitravel-btn w-100">レビューを投稿する</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- レビュー有り -->
+                                        <div th:if="${!reviews.isEmpty()}">
+                                            <div class="row">
+                                                <div th:each="review : ${reviews}" class="col-lg-6 mb-3">
+                                                    <div class="border p-3 samuraitravel-review">
+                                                        <h5 th:text="${review.getName()}"></h5>
+                                                        <span class="text-warning" th:each="i : ${#numbers.sequence(1, review.getScore())}">&#9733;</span><span class="text-warning" th:unless="${review.getScore() == 5}" th:each="i : ${#numbers.sequence(1, 5 - review.getScore())}">&#9734;</span>
+                                                        <p th:text="${#dates.format(review.getCreatedAt(), 'yyyy年MM月dd日')}" class="text-secondary"></p>
+                                                        <p th:text="${review.getComment()}"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div th:if="${totalReviews > 6}" class="row">
+                                                <div class="col-12 text-center">
+                                                    <a th:href="@{/houses/__${house.getId()}__/reviews}">すべてのレビューを見る</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- レビュー無し -->
+                                        <div th:if="${reviews.isEmpty()}" class="row">
+                                            <div class="col-12 text-center">
+                                                <p>まだレビューがありません</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                                                                            
                             </div>
                         </div>
                     </div>
