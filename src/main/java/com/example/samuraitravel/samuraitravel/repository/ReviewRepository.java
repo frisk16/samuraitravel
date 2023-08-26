@@ -8,11 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.samuraitravel.samuraitravel.entity.House;
 import com.example.samuraitravel.samuraitravel.entity.Review;
+import com.example.samuraitravel.samuraitravel.entity.User;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
   
   public List<Review> findByHouse(House house);
   public List<Review> findTop6ByHouseOrderByCreatedAtDesc(House house);
   public Page<Review> findByHouseOrderByCreatedAtDesc(House house, Pageable pageable);
+  public Review findByHouseAndUser(House house, User currentUser);
 
 }

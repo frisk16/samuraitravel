@@ -5,7 +5,7 @@
              
         <div th:replace="~{fragment :: styles}"></div>
           
-        <title>レビュー投稿</title>   
+        <title>レビュー編集</title>   
     </head>
     <body>
         <div class="samuraitravel-wrapper">
@@ -21,11 +21,11 @@
                                     <li class="breadcrumb-item"><a th:href="@{/}">ホーム</a></li>
                                     <li class="breadcrumb-item"><a th:href="@{/houses}">民宿一覧</a></li>
                                     <li class="breadcrumb-item"><a th:href="@{/houses/__${house.getId()}__}">民宿詳細</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">レビュー投稿</li>
+                                    <li class="breadcrumb-item active" aria-current="page">レビュー編集</li>
                                 </ol>
                             </nav> 
                             
-                            <h1 class="mb-4 text-center" th:text="${house.getName() + 'のレビュー投稿'}"></h1>                                                           
+                            <h1 class="mb-4 text-center" th:text="${house.getName() + 'のレビュー編集'}"></h1>                                                           
                             
                             <div th:if="${errorMessage}" class="alert alert-danger">
                                 <span th:text="${errorMessage}"></span>
@@ -34,7 +34,8 @@
                             <div class="container">  
                               <div class="row">
                                 <div class="col-lg-8 container">
-                                  <form th:action="@{/houses/__${house.getId()}__/reviews/create}" method="post" th:object="${reviewRegisterForm}">
+                                  <form th:action="@{/houses/__${house.getId()}__/reviews/update}" method="post" th:object="${reviewEditForm}">
+                                    <input type="hidden" th:field="*{id}">
                                     <input type="hidden" th:field="*{houseId}">
                                     <input type="hidden" th:field="*{userId}">
                                     <div class="form-group mb-2">
@@ -69,7 +70,7 @@
                                     <div class="form-group mb-2">
                                       <div class="row">
                                         <div class="col-sm-6 mx-auto">
-                                          <button type="submit" class="btn samuraitravel-btn text-white shadow-sm w-100">投稿</button>
+                                          <button type="submit" class="btn samuraitravel-btn text-white shadow-sm w-100">編集</button>
                                         </div>
                                       </div>
                                     </div>

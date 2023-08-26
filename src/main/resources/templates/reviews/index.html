@@ -4,9 +4,6 @@
         <div th:replace="~{fragment :: meta}"></div>   
              
         <div th:replace="~{fragment :: styles}"></div>
-
-        <!-- Flatpickr -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
           
         <title>レビュー一覧</title>   
     </head>
@@ -38,7 +35,13 @@
                                         <div th:if="${!reviews.isEmpty()}" class="row">
                                             <div th:each="review : ${reviews}" class="col-lg-6 mb-3">
                                                 <div class="border p-3 samuraitravel-review">
-                                                    <h5 th:text="${review.getName()}"></h5>
+                                                    <div class="d-flex">
+                                                        <h5 th:text="${review.getName()}"></h5>
+                                                        <div th:if="${currentUserId == review.getUser().getId()}" class="ms-auto">
+                                                            <a th:href="@{/houses/__${house.getId()}__/reviews/edit}" class="text-primary">編集</a>
+                                                            <span class="text-danger ms-2">削除</span>
+                                                        </div>
+                                                    </div>
                                                     <span class="text-warning" th:each="i : ${#numbers.sequence(1, review.getScore())}">&#9733;</span><span class="text-warning" th:unless="${review.getScore() == 5}" th:each="i : ${#numbers.sequence(1, 5 - review.getScore())}">&#9734;</span>
                                                     <p th:text="${#dates.format(review.getCreatedAt(), 'yyyy年MM月dd日')}" class="text-secondary"></p>
                                                     <p th:text="${review.getComment()}"></p>
@@ -86,10 +89,5 @@
         </div>    
         
         <div th:replace="~{fragment :: scripts}"></div>  
-
-        <!-- Flatpickr -->
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
-        <script th:src="@{/js/flatpickr.js}"></script>
   </body>
 </html>

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.samuraitravel.samuraitravel.entity.House;
 import com.example.samuraitravel.samuraitravel.entity.Review;
+import com.example.samuraitravel.samuraitravel.entity.User;
 import com.example.samuraitravel.samuraitravel.form.ReservationInputForm;
 import com.example.samuraitravel.samuraitravel.repository.HouseRepository;
 import com.example.samuraitravel.samuraitravel.repository.ReviewRepository;
+import com.example.samuraitravel.samuraitravel.security.UserDetailsImpl;
 
 @Controller
 @RequestMapping("/houses")
@@ -79,15 +82,34 @@ public class HouseController {
   }
 
   @GetMapping("/{id}")
-  public String show(@PathVariable(name = "id") Integer id, Model model) {
+  public String show(
+    @PathVariable(name = "id") Integer id,
+    @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    Model model
+  ) {
     House house = this.houseRepository.getReferenceById(id);
     List<Review> reviews = this.reviewRepository.findTop6ByHouseOrderByCreatedAtDesc(house);
     Integer totalReviews = this.reviewRepository.findByHouse(house).size();
+
+    Integer currentUserId;
+    Review currentUserReview;
+    if(userDetailsImpl != null) {
+      User currentUser = userDetailsImpl.getUser();
+      currentUserReview = this.reviewRepository.findByHouseAndUser(house, currentUser);
+      currentUserId = currentUser.getId();
+    } else {
+      currentUserId = 0;
+      currentUserReview = null;
+    }
+    
+    
 
     model.addAttribute("house", house);
     model.addAttribute("reservationInputForm", new ReservationInputForm());
     model.addAttribute("reviews", reviews);
     model.addAttribute("totalReviews", totalReviews);
+    model.addAttribute("currentUserId", currentUserId);
+    model.addAttribute("currentUserReview", currentUserReview);
 
     return "houses/show";
   }

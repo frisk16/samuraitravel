@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.samuraitravel.samuraitravel.entity.House;
 import com.example.samuraitravel.samuraitravel.entity.Review;
 import com.example.samuraitravel.samuraitravel.entity.User;
+import com.example.samuraitravel.samuraitravel.form.ReviewEditForm;
 import com.example.samuraitravel.samuraitravel.form.ReviewRegisterForm;
 import com.example.samuraitravel.samuraitravel.repository.HouseRepository;
 import com.example.samuraitravel.samuraitravel.repository.ReviewRepository;
@@ -44,6 +45,7 @@ public class ReviewController {
   @GetMapping("/houses/{id}/reviews")
   public String index(
     @PathVariable(name = "id") Integer id,
+    @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
     @PageableDefault(page = 0, size = 10,sort = "id" , direction = Direction.ASC) Pageable pageable,
     Model model
   ) {
@@ -51,8 +53,16 @@ public class ReviewController {
     House house = this.houseRepository.getReferenceById(id);
     Page<Review> reviews = this.reviewRepository.findByHouseOrderByCreatedAtDesc(house, pageable);
 
+    Integer currentUserId;
+    if(userDetailsImpl != null) {
+      currentUserId = userDetailsImpl.getUser().getId();
+    } else {
+      currentUserId = 0;
+    }
+    
     model.addAttribute("reviews", reviews);
     model.addAttribute("house", house);
+    model.addAttribute("currentUserId", currentUserId);
 
     return "reviews/index";
   }
@@ -66,6 +76,12 @@ public class ReviewController {
 
     House house = this.houseRepository.getReferenceById(id);
     User user = userDetailsImpl.getUser();
+    Review review = this.reviewRepository.findByHouseAndUser(house, user);
+
+    if(review != null) {
+      return "redirect:/";
+    }
+
     ReviewRegisterForm reviewRegisterForm = new ReviewRegisterForm(
       house.getId(),
       user.getId(),
@@ -101,6 +117,31 @@ public class ReviewController {
     redirectAttributes.addFlashAttribute("successMessage", "レビューを投稿しました。");
   
     return "redirect:/houses/{id}";
+  }
+
+  @GetMapping("/houses/{id}/reviews/edit")
+  public String edit(
+    @PathVariable(name = "id") Integer id,
+    @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    Model model
+  ) {
+
+    User user = userDetailsImpl.getUser();
+    House house = this.houseRepository.getReferenceById(id);
+    Review review = this.reviewRepository.findByHouseAndUser(house, user);
+
+    ReviewEditForm reviewEditForm = new ReviewEditForm(
+      review.getId(),
+      house.getId(),
+      user.getId(),
+      review.getScore(),
+      review.getComment()
+    );
+
+    model.addAttribute("house", house);
+    model.addAttribute("reviewEditForm", reviewEditForm);
+
+    return "reviews/edit";
   }
 
 }
