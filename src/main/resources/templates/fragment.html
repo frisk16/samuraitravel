@@ -58,6 +58,9 @@
                                     <a th:href="@{/reservations}" class="dropdown-item samuraitravel-dropdown-item">
                                         予約一覧
                                     </a>
+                                    <a th:href="@{/favorites}" class="dropdown-item samuraitravel-dropdown-item">
+                                        お気に入り一覧
+                                    </a>
                                     <div class="dropdown-divider"></div>
                                     <a th:href="@{/logout}" class="dropdown-item samuraitravel-dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         ログアウト
@@ -78,6 +81,9 @@
                                     </a>
                                     <a th:href="@{/admin/users}" class="dropdown-item samuraitravel-dropdown-item">
                                         会員一覧
+                                    </a>
+                                    <a th:href="@{/favorites}" class="dropdown-item samuraitravel-dropdown-item">
+                                        お気に入り一覧
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a th:href="@{/logout}" class="dropdown-item samuraitravel-dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
