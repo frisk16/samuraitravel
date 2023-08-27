@@ -144,4 +144,42 @@ public class ReviewController {
     return "reviews/edit";
   }
 
+  @PostMapping("/houses/{id}/reviews/update")
+  public String update(
+    @PathVariable(name = "id") Integer id,
+    @ModelAttribute @Validated ReviewEditForm reviewEditForm,
+    BindingResult bindingResult, RedirectAttributes redirectAttributes,
+    Model model
+  ) {
+
+    House house = this.houseRepository.getReferenceById(id);
+    
+    if(bindingResult.hasErrors()) {
+      model.addAttribute("house", house);
+      model.addAttribute("errorMessage", "入力内容に誤りがあります");
+
+      return "reviews/edit";
+    }
+
+    this.reviewService.update(reviewEditForm);
+
+    redirectAttributes.addFlashAttribute("successMessage", "レビューを更新しました");
+
+    return "redirect:/houses/{id}";
+  }
+
+  @PostMapping("/houses/{houseId}/reviews/{reviewId}/delete")
+  public String delete(
+    @PathVariable(name = "houseId") Integer houseId,
+    @PathVariable(name = "reviewId") Integer reviewId,
+    RedirectAttributes redirectAttributes
+  ) {
+
+    this.reviewRepository.deleteById(reviewId);
+
+    redirectAttributes.addFlashAttribute("successMessage", "レビューを削除しました");
+
+    return "redirect:/houses/{houseId}";
+  }
+
 }

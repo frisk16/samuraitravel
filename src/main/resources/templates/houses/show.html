@@ -174,7 +174,24 @@
                                                             <h5 th:text="${review.getName()}"></h5>
                                                             <div th:if="${currentUserId == review.getUser().getId()}" class="ms-auto">
                                                                 <a th:href="@{/houses/__${house.getId()}__/reviews/edit}" class="text-primary">編集</a>
-                                                                <span class="text-danger ms-2">削除</span>
+                                                                <a href="#" class="samuraitravel-link-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">削除</a>
+                                                                
+                                                                <!-- レビュー削除用モーダル -->
+                                                                <div class="modal fade" id="deleteReviewModal">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" th:text="${house.getName() + 'のレビューを削除してもよろしいですか？'}"></h5>
+                                                                                <button class="btn-close" data-bs-dismiss="modal"></button>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <form th:action="@{/houses/__${house.getId()}__/reviews/__${review.getId()}__/delete}" method="post">
+                                                                                    <button type="submit" class="btn samuraitravel-btn-danger text-white">削除</button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <span class="text-warning" th:each="i : ${#numbers.sequence(1, review.getScore())}">&#9733;</span><span class="text-warning" th:unless="${review.getScore() == 5}" th:each="i : ${#numbers.sequence(1, 5 - review.getScore())}">&#9734;</span>
