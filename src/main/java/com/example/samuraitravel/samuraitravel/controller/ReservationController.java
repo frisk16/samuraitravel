@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.samuraitravel.samuraitravel.entity.Favorite;
 import com.example.samuraitravel.samuraitravel.entity.House;
 import com.example.samuraitravel.samuraitravel.entity.Reservation;
 import com.example.samuraitravel.samuraitravel.entity.Review;
 import com.example.samuraitravel.samuraitravel.entity.User;
+import com.example.samuraitravel.samuraitravel.form.FavoriteRegisterForm;
 import com.example.samuraitravel.samuraitravel.form.ReservationInputForm;
 import com.example.samuraitravel.samuraitravel.form.ReservationRegisterForm;
+import com.example.samuraitravel.samuraitravel.repository.FavoriteRepository;
 import com.example.samuraitravel.samuraitravel.repository.HouseRepository;
 import com.example.samuraitravel.samuraitravel.repository.ReservationRepository;
 import com.example.samuraitravel.samuraitravel.repository.ReviewRepository;
@@ -38,13 +41,22 @@ public class ReservationController {
 	
 	private final ReservationRepository reservationRepository;
 	private final ReviewRepository reviewRepository;
+	private final FavoriteRepository favoriteRepository;
 	private final HouseRepository houseRepository;
 	private final ReservationService reservationService;
 	private final StripeService stripeService;
 
-	public ReservationController(ReservationRepository reservationRepository, ReviewRepository reviewRepository, HouseRepository houseRepository, ReservationService reservationService, StripeService stripeService) {
+	public ReservationController(
+		ReservationRepository reservationRepository,
+		ReviewRepository reviewRepository,
+		FavoriteRepository favoriteRepository,
+		HouseRepository houseRepository,
+		ReservationService reservationService,
+		StripeService stripeService
+	) {
 		this.reservationRepository = reservationRepository;
 		this.reviewRepository = reviewRepository;
+		this.favoriteRepository = favoriteRepository;
 		this.houseRepository = houseRepository;
 		this.reservationService = reservationService;
 		this.stripeService = stripeService;
@@ -79,14 +91,21 @@ public class ReservationController {
 	List<Review> reviews = this.reviewRepository.findTop6ByHouseOrderByCreatedAtDesc(house);
 	Integer totalReviews = this.reviewRepository.findByHouse(house).size();
 	Integer currentUserId;
+
 	Review currentUserReview;
+	Favorite isFavorite;
+	FavoriteRegisterForm favoriteRegisterForm;
 	if(userDetailsImpl != null) {
 		User currentUser = userDetailsImpl.getUser();
+		isFavorite = this.favoriteRepository.findByHouseAndUser(house, currentUser);
 		currentUserReview = this.reviewRepository.findByHouseAndUser(house, currentUser);
 		currentUserId = currentUser.getId();
+		favoriteRegisterForm = new FavoriteRegisterForm(currentUserId, house.getId());
 	} else {
 		currentUserId = 0;
 		currentUserReview = null;
+		isFavorite = null;
+		favoriteRegisterForm = null;
 	}
 
 
@@ -106,6 +125,8 @@ public class ReservationController {
 		model.addAttribute("totalReviews", totalReviews);
 		model.addAttribute("currentUserId", currentUserId);
 		model.addAttribute("currentUserReview", currentUserReview);
+		model.addAttribute("isFavorite", isFavorite);
+		model.addAttribute("favoriteRegisterForm", favoriteRegisterForm);
 
 		return "houses/show";
 	}

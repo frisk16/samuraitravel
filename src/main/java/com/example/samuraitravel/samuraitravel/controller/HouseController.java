@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.samuraitravel.samuraitravel.entity.Favorite;
 import com.example.samuraitravel.samuraitravel.entity.House;
 import com.example.samuraitravel.samuraitravel.entity.Review;
 import com.example.samuraitravel.samuraitravel.entity.User;
+import com.example.samuraitravel.samuraitravel.form.FavoriteRegisterForm;
 import com.example.samuraitravel.samuraitravel.form.ReservationInputForm;
+import com.example.samuraitravel.samuraitravel.repository.FavoriteRepository;
 import com.example.samuraitravel.samuraitravel.repository.HouseRepository;
 import com.example.samuraitravel.samuraitravel.repository.ReviewRepository;
 import com.example.samuraitravel.samuraitravel.security.UserDetailsImpl;
@@ -28,10 +31,16 @@ public class HouseController {
   
   private final HouseRepository houseRepository;
   private final ReviewRepository reviewRepository;
+  private final FavoriteRepository favoriteRepository;
 
-  public HouseController(HouseRepository houseRepository, ReviewRepository reviewRepository) {
+  public HouseController(
+    HouseRepository houseRepository,
+    ReviewRepository reviewRepository,
+    FavoriteRepository favoriteRepository
+  ) {
     this.houseRepository = houseRepository;
     this.reviewRepository = reviewRepository;
+    this.favoriteRepository = favoriteRepository;
   }
 
   @GetMapping
@@ -93,13 +102,19 @@ public class HouseController {
 
     Integer currentUserId;
     Review currentUserReview;
+    Favorite isFavorite;
+    FavoriteRegisterForm favoriteRegisterForm;
     if(userDetailsImpl != null) {
       User currentUser = userDetailsImpl.getUser();
+      isFavorite = this.favoriteRepository.findByHouseAndUser(house, currentUser);
       currentUserReview = this.reviewRepository.findByHouseAndUser(house, currentUser);
       currentUserId = currentUser.getId();
+      favoriteRegisterForm = new FavoriteRegisterForm(currentUserId, house.getId());
     } else {
       currentUserId = 0;
       currentUserReview = null;
+      isFavorite = null;
+      favoriteRegisterForm = null;
     }
     
     
@@ -110,6 +125,8 @@ public class HouseController {
     model.addAttribute("totalReviews", totalReviews);
     model.addAttribute("currentUserId", currentUserId);
     model.addAttribute("currentUserReview", currentUserReview);
+    model.addAttribute("isFavorite", isFavorite);
+    model.addAttribute("favoriteRegisterForm", favoriteRegisterForm);
 
     return "houses/show";
   }

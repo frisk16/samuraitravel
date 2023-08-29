@@ -19,12 +19,25 @@
                 <div class="container pt-4 pb-5 samuraitravel-container">
                     <div class="row justify-content-center">
                         <div class="col-xxl-9 col-xl-10 col-lg-11">
-                            <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                            <nav class="mb-4 d-flex justify-content-between" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">                        
                                     <li class="breadcrumb-item"><a th:href="@{/}">ホーム</a></li>
                                     <li class="breadcrumb-item"><a th:href="@{/houses}">民宿一覧</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">民宿詳細</li>
                                 </ol>
+                                <div sec:authorize="isAuthenticated()">
+                                    <div th:if="${isFavorite}">
+                                        <a th:href="@{/houses/__${house.getId()}__/favorites/__${isFavorite.getId()}__/delete}" onclick="event.preventDefault(); document.getElementById('deleteFavoriteForm').submit();">&#9829;お気に入り解除</a>
+                                        <form th:action="@{/houses/__${house.getId()}__/favorites/__${isFavorite.getId()}__/delete}" method="post" id="deleteFavoriteForm"></form>
+                                    </div>
+                                    <div th:unless="${isFavorite}">
+                                        <a th:href="@{/houses/__${house.getId()}__/favorites/add}" onclick="event.preventDefault(); document.getElementById('addFavoriteForm').submit();">&#9825;お気に入り追加</a>
+                                        <form th:action="@{/houses/__${house.getId()}__/favorites/add}" method="post" id="addFavoriteForm" th:object="${favoriteRegisterForm}">
+                                            <input type="hidden" th:field="*{houseId}">
+                                            <input type="hidden" th:field="*{userId}">
+                                        </form>
+                                    </div>
+                                </div>
                             </nav> 
                             
                             <h1 class="mb-4 text-center" th:text="${house.getName()}"></h1>                                                           
